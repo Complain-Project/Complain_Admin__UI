@@ -1,0 +1,188 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.txt-bold{
+  font-weight: bold;
+}
+#la-so-tu-vi{
+  .action {
+    margin-bottom: 10px;
+
+    .action-wrap {
+      display: flex;
+      justify-content: center;
+
+      &--col {
+        display: flex;
+        align-items: center;
+
+        &__title {
+          font-weight: 600;
+          font-size: 20px;
+          color: #0F2E5FFF;
+        }
+
+        &.action-btn {
+          display: flex;
+          justify-content: end;
+        }
+      }
+    }
+  }
+  table{
+    width: 900px;
+    background-color: #f1ece3;
+    border-top: 2px solid #000000;
+    border-right: 2px solid #000000;
+    font-size: 13px;
+    margin: 0 auto;
+    .txt-sub-content{
+      font-family: Roboto;
+      font-size: 13px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.38;
+      letter-spacing: -0.39px;
+    }
+    .cung{
+      width: 25%;
+      height: 300px;
+      border-left: 2px solid #000000;
+      border-bottom: 2px solid #000000;
+      padding: 0;
+      vertical-align: unset;
+      position: relative;
+
+      .info{
+        padding: 60px;
+        text-align: center;
+        .header{
+          font-weight: 500;
+          margin-bottom: 15px;
+        }
+        .personal-info{
+          .name{
+            font-weight: bold;
+            color: #0f2e5f;
+          }
+          .dob{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            *{
+              padding-top: 5px;
+            }
+          }
+        }
+      }
+
+      .cung-view{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+
+        .cung-top{
+          display: flex;
+          justify-content: space-between;
+          padding: 8px 4px 0 4px;
+          .cung-top-left{
+            text-align: left;
+          }
+          .cung-top-center{
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+          }
+          .cung-top-right{
+            text-align: right;
+          }
+        }
+        .cung-middle{
+          width: 100%;
+          height: 50%;
+          display: flex;
+          justify-content: space-between;
+          padding-top: 5px;
+          .cung-middle-left{
+            width: 48%;
+            float: left;
+            padding-left: 4px;
+            margin: 0;
+          }
+          .cung-middle-right{
+            width: 48%;
+            padding-right: 4px;
+            margin: 0;
+            text-align: left;
+          }
+        }
+        .cung-middle-tu-hoa-phai{
+          padding-left: 4px;
+          padding-top: 5px;
+        }
+        .cung-bottom{
+          position: absolute;
+          bottom: 10px;
+          left: 0;
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          padding: 5px 4px;
+        }
+        .khoi-tieu-han-bottom {
+          position: absolute;
+          bottom: -25px;
+          display: flex;
+          justify-content: center;
+          width: 100%;
+        }
+        .khoi-tieu-han-bottom-0 {
+          position: absolute;
+          bottom: -25px;
+          right: -35px;
+        }
+        .khoi-tieu-han-mid-0{
+          position: absolute;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          top: 0;
+          right: -35px;
+        }
+        .khoi-tieu-han-top-0{
+          position: absolute;
+          top: -25px;
+          right: -25px;
+        }
+        .khoi-tieu-han-top{
+          position: absolute;
+          top: -25px;
+          display: flex;
+          justify-content: center;
+          width: 100%;
+        }
+        .khoi-tieu-han-top-3{
+          position: absolute;
+          top: -25px;
+          left: -30px;
+        }
+        .khoi-tieu-han-mid{
+          position: absolute;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          top: 0;
+          left: -35px;
+        }
+        .khoi-tieu-han-bottom-3{
+          position: absolute;
+          bottom: -25px;
+          left: -35px;
+        }
+      }
+    }
+  }
+}

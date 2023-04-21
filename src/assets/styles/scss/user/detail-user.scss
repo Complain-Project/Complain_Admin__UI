@@ -1,0 +1,182 @@
+#user__wrapper::v-deep {
+   .user__box {
+      .user__info__other {
+         border-right: 1px solid #eeeeee;
+
+         .other__order__wrap {
+            .table-wrap {
+               .el-table {
+                  height: unset !important;
+
+                  .el-table__body-wrapper {
+                     height: unset !important;
+                     max-height: 100vh !important;
+                     min-height: calc(100vh - 585px) !important;
+                  }
+               }
+
+               &--order {
+                  &__bold {
+                     font-weight: 600;
+                  }
+
+                  &__name {
+                     font-weight: bold;
+                     color: #417ab0;
+                     cursor: pointer;
+
+                     .el-tag {
+                        margin-left: 10px;
+                     }
+
+                     &.cancel {
+                        color: #ff0000c9;
+                     }
+
+                     &.no-cursor {
+                        cursor: unset;
+                     }
+                  }
+
+                  &.cancel {
+                     color: #ff0000c9;
+                     text-decoration: line-through;
+                  }
+
+                  &.nhanh {
+                     .el-icon-check {
+                        color: #25a71d;
+                        font-weight: bold;
+                     }
+
+                     .el-icon-close {
+                        color: #ff0000c9;
+                        font-weight: bold;
+                     }
+                  }
+               }
+
+               .detail {
+                  .detail-product {
+                     padding-right: 50px;
+
+                     &--product {
+                        padding-left: 5px;
+
+                        &__title {
+                           font-weight: bold;
+                           color: #417ab0;
+                           line-height: 20px;
+                        }
+
+                        &__info {
+                           margin-top: 10px;
+                           line-height: 25px;
+                        }
+                     }
+
+                     &--price {
+                        text-align: right;
+                        color: black;
+                        line-height: 15px;
+
+                        p {
+                           margin: 0;
+                        }
+                     }
+
+                     &__bold {
+                        font-weight: bold;
+                        color: #606266 !important;
+                     }
+
+                     .total {
+                        font-weight: bold;
+                        text-align: right;
+                     }
+
+                     .product {
+                        margin-bottom: 10px;
+                     }
+                  }
+
+                  .detail-ship {
+                     &--title {
+                        margin-top: 0;
+                        font-weight: bold;
+                        font-size: 16px;
+                     }
+
+                     &--user {
+                        &__name {
+                           span {
+                              font-weight: bold;
+                              color: #417ab0;
+                              line-height: 20px;
+                           }
+                        }
+                     }
+
+                     &--more {
+                        &__info {
+                           text-align: right;
+                           font-weight: bold;
+                        }
+
+                        &__title {
+                           display: flex;
+                           align-items: center;
+                           margin-bottom: 10px;
+                        }
+
+                        .dot {
+                           height: 3px;
+                           width: 3px;
+                           background-color: #bbb;
+                           border-radius: 50%;
+                           display: inline-block;
+                           margin-right: 5px;
+                        }
+                     }
+                  }
+
+                  .action-wrap {
+                     text-align: right;
+
+                     span {
+                        font-weight: 500;
+                        cursor: pointer;
+
+                        &:hover {
+                           color: #c71c30;
+                        }
+
+                        i {
+                           font-size: 18px;
+                           font-weight: bold;
+                        }
+
+                     }
+                  }
+               }
+
+               .paid {
+                  color: #6aabf1;
+               }
+
+               .unpaid {
+                  color: #6aabf1;
+               }
+            }
+         }
+      }
+
+      .user__contact {
+         .user__contact__item {
+            .contact--icon {
+               width: 25px;
+            }
+         }
+      }
+   }
+}

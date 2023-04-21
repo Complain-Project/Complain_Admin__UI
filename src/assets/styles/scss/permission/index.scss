@@ -1,0 +1,48 @@
+.permission {
+    padding: 10px 0 0 10px;
+    
+    #action {
+        margin-bottom: 30px;
+    }
+    
+    h1 {
+        font-size: 22px;
+        padding: 0 0 20px 20px;
+        
+        span {
+            font-size: 19px;
+            font-weight: 100;
+        }
+    }
+    
+    .parent {
+        i {
+            font-size: 20px;
+            margin-right: 20px;
+            font-weight: bold;
+        }
+        
+        input {
+            margin-right: 10px;
+        }
+    }
+    
+    .child-permission {
+        padding: 10px 0 0 81px;
+        transition: 0.5s;
+        
+        .sub-child {
+            padding: 10px 0;
+            
+            input {
+                margin-right: 10px;
+                cursor: pointer;
+            }
+        }
+        
+        .el-checkbox-group {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}

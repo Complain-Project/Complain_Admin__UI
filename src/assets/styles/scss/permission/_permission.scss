@@ -1,0 +1,95 @@
+#permission::v-deep{
+  .action {
+    margin-bottom: 10px;
+
+    .action-wrap {
+      display: flex;
+      justify-content: center;
+
+      &--col {
+        display: flex;
+        align-items: center;
+
+        &__title {
+          font-weight: 600;
+          font-size: 20px;
+          color: #0F2E5FFF;
+        }
+
+        &.action-btn {
+          display: flex;
+          justify-content: end;
+        }
+      }
+    }
+  }
+  .input-warp {
+    margin-bottom: 10px;
+
+    label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #3f6079;;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      height: 40px;
+    }
+
+    .el-select {
+      .el-input__wrapper {
+        height: 40px !important;
+      }
+
+      i {
+        font-weight: bold;
+      }
+    }
+  }
+  .required {
+    color: #F54B5EFF;
+  }
+
+  .error {
+    color: red;
+    margin-top: 5px;
+    font-size: 0.75rem;
+  }
+  .el-tree-node__content{
+    @apply cursor-auto my-1.5
+  }
+  .el-tree-node__children{
+    .el-tree-node__content{
+      .el-tree-node__expand-icon{
+        &:after{
+          content: "|--";
+          @apply text-black not-italic pl-10
+        }
+        @apply rotate-0 pr-7
+      }
+    }
+  }
+  .admins-wrapper{
+    overflow-y: auto;
+  }
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #bcc0c8;
+    border-radius: 8px;
+  }
+  .setting{
+    margin: 0 auto;
+  }
+  .el-checkbox__inner{
+    &:after{
+      @apply h-2 left-[5px]
+    }
+    @apply w-[16px] h-[16px]
+  }
+}

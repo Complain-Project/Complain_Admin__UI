@@ -1,0 +1,84 @@
+#user__wrapper::v-deep {
+   .user__content {
+      .filter__wrap--btn {
+         border: 1px solid #DCDFE6;
+         padding: 12px 20px;
+         width: 100%;
+         text-align: left;
+
+         &:hover {
+            color: #000000;
+            border-color: #409EFF;
+            background-color: #FFFFFF;
+         }
+
+         &:focus {
+            color: #000000;
+            background-color: #FFFFFF;
+         }
+      }
+
+      .table__wrapper {
+         .el-table__body-wrapper {
+            height: calc(100vh - 345px);
+            overflow-y: auto;
+
+            .table__item__wrapper {
+               .table__item--name {
+                  color: #417ab0;
+               }
+
+               .gender__wrap {
+                  svg {
+                     &.gender--male {
+                        color: #418ec8;
+                     }
+
+                     &.gender--female {
+                        color: #e70c8c;
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   .el-dialog {
+      .password__form {
+         .el-form-item {
+            .el-form-item__label {
+               padding-bottom: 0;
+               line-height: unset;
+            }
+         }
+      }
+   }
+
+   .user__form__dialog {
+      .el-dialog {
+         .el-dialog__body {
+            padding-bottom: 20px;
+         }
+      }
+   }
+}
+
+.filter__content__wrap::v-deep {
+   padding: 15px;
+
+   .filter__form {
+      .el-form-item {
+         .el-form-item__label {
+            padding-bottom: 0;
+            line-height: unset;
+         }
+
+         .el-form-item__content {
+            .el-select {
+               width: 100%;
+            }
+         }
+      }
+   }
+}

@@ -1,0 +1,68 @@
+#user__wrapper::v-deep {
+   .user__box {
+      .user__form {
+         .el-form-item {
+            .el-form-item__label {
+               padding-bottom: 0;
+               line-height: unset;
+            }
+
+            .el-form-item__content {
+               .upload__wrapper {
+                  position: relative;
+
+                  .avatar-uploader {
+                     .el-upload {
+                        border: 1px dashed #d9d9d9;
+                        border-radius: 6px;
+                        cursor: pointer;
+                        position: relative;
+                        overflow: hidden;
+                        width: 100%;
+
+                        &:hover {
+                           border-color: #409EFF;
+                        }
+
+                        .avatar {
+                           width: 100%;
+                           aspect-ratio: 1/1;
+                           display: block;
+                           object-fit: cover;
+                        }
+
+                        .avatar-uploader-icon {
+                           display: flex;
+                           justify-content: center;
+                           align-items: center;
+                           font-size: 28px;
+                           color: #8c939d;
+                           width: 100%;
+                           aspect-ratio: 1/1;
+                           text-align: center;
+                        }
+                     }
+                  }
+
+                  .avatar-delete-icon {
+                     position: absolute;
+                     color: #FFFFFF;
+                     top: -10px;
+                     right: -11px;
+                     font-size: 12px;
+                     font-weight: bold;
+                     padding: 4px;
+                     background: #c0c4cc;
+                     border-radius: 50%;
+                     cursor: pointer;
+                  }
+               }
+
+               .el-select, .el-date-editor {
+                  width: 100%;
+               }
+            }
+         }
+      }
+   }
+}

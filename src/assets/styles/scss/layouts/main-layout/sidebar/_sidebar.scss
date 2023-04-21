@@ -1,0 +1,30 @@
+@tailwind components;
+
+@layer components {
+    .menu-item {
+        @apply h-11 rounded-md font-medium cursor-pointer text-gray-400 hover:bg-gray-800 hover:text-white;
+    }
+    
+    .menu-active {
+        @apply bg-gray-800 text-white;
+    }
+}
+
+#menu-wrap {
+    &:hover {
+        &::-webkit-scrollbar-thumb {
+            display: block;
+        }
+    }
+    
+    &::-webkit-scrollbar {
+        width: 4px;
+        height: 10px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background: rgb(102 102 102 / 1);
+        border-radius: 8px;
+        display: none;
+    }
+}

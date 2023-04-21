@@ -1,0 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+#app {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+nav {
+    padding: 30px;
+}
+
+nav a {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+nav a.router-link-exact-active {
+    color: #42b983;
+}
+
+.el-popper {
+    &.sub-page {
+        .el-popper__arrow {
+            display: none;
+        }
+    }
+}
+
+.text-muted {
+    color: #a1a5b7;
+}
+
+.btn-close {
+    background: #909399 !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-size: 14px !important;
+    line-height: 14px !important;
+    height: auto!important;
+    padding: 12px 20px!important;
+    
+    &:hover, &:focus {
+        background: #a6a9ad !important;
+    }
+}
+
+.btn-apply {
+    background: #2f557af2 !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-size: 14px !important;
+    line-height: 14px !important;
+    padding: 12px 20px!important;
+    height: auto!important;
+    
+    &:hover {
+        background: #2f557ad6 !important;
+    }
+}
+
+.btn-delete {
+    background-color: #F54B5EFF !important;
+    outline: none;
+    border-color: #F54B5EFF !important;
+    font-size: 14px !important;
+    line-height: 14px !important;
+    padding: 12px 20px!important;
+    height: auto!important;
+}

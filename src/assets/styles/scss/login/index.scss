@@ -1,0 +1,112 @@
+.loginForm {
+    max-width: 400px;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    background: #fff;
+    padding: 24px;
+    padding-top: 0px;
+    border-radius: 10px;
+
+.header {
+    margin-bottom: 50px;
+    background: linear-gradient(to left, #32465a, #6f363694);
+    width: 114%;
+    margin-left: -24px;
+    border-radius: 5px 5px 0px 0px;
+    position: relative;
+
+.image-left {
+    padding: 24px 0 0 24px;
+
+h5 {
+    font-size: 1.01563rem;
+    color: #fff;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: .8125rem;
+    color: #fff !important;
+    text-align: left;
+}
+}
+
+.image-right {
+    margin-bottom: 20px;
+
+img {
+    width: 100%;
+    height: auto;
+}
+}
+
+.avatar {
+    position: absolute;
+    bottom: -35px;
+    left: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    padding-top: -30px;
+    border-radius: 50%;
+    width: 72px;
+    height: 72px;
+    background-color: #eff2f7;
+
+img {
+    width: 100%;
+    height: auto;
+    vertical-align: middle;
+    border-style: none;
+    box-sizing: border-box;
+    border-radius: 50%;
+    box-shadow: 0 1px 1px 0 rgb(0 0 0 / 10%);
+}
+}
+}
+
+.label {
+    font-weight: 600;
+    font-size: .8500rem;
+    line-height: 1.5;
+    color: #495057;
+}
+
+.inputWrap {
+    margin-top: 8px;
+    margin-bottom: 24px;
+
+.error {
+    color: #F54B5EFF;
+    margin-top: 8px;
+    font-size: 12px;
+}
+}
+
+.loginButton {
+    width: 100%;
+    background-color: #bd0000;
+    border-color: #bd0000;
+    font-weight: bold;
+}
+
+}
+
+@media only screen and (max-width: 992px) {
+    .loginForm {
+        margin: 10px;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    .header {
+        width: 116% !important;
+    }
+}
