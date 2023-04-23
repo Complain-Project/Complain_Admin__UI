@@ -86,7 +86,7 @@
 										</div>
 									</el-col>
 									<el-col :span="4">
-										<a href="http://127.0.0.1:8000/storage/example.xlsx"
+										<a :href="complain.attachment"
 										   download class="flex justify-end"
 										   v-if="complain.attachment">
 											<el-button type="primary">
