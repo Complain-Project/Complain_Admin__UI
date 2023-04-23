@@ -89,7 +89,7 @@
 										<a :href="complain.attachment"
 										   download class="flex justify-end"
 										   v-if="complain.attachment">
-											<el-button type="primary">
+											<el-button type="primary" class="!bg-[#409eff]">
 												<el-icon>
 													<Download />
 												</el-icon>
@@ -174,7 +174,7 @@
 								</div>
 								
 								<div class="text-right mt-3">
-									<el-button type="primary" @click="replyComplain()">Phản hồi</el-button>
+									<el-button class="!bg-[#409eff]" type="primary" @click="replyComplain()">Phản hồi</el-button>
 								</div>
 							</div>
 						</div>
