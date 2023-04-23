@@ -14,7 +14,7 @@
                         <div class="permission-main__title flex justify-between border-b border-solid mb-4">
                             <p class="mb-2 text-base font-bold">Vai trò</p>
                             <div class="cursor-pointer text-[#009ef7]"
-                                 v-if="hasPermission('add-role')"
+                                 v-if="hasPermission('ROLE-C')"
                                  @click="openModalRole(false)">
                                 + Tạo mới vai trò
                             </div>
@@ -26,8 +26,8 @@
                                      :expand-on-click-node="false">
                                 <template #default="item">
                                     <div class="flex justify-between w-full cursor-auto">
-                                      <div @click="hasPermission('detail-role') ? openDetailRole(item.data) : ''" :id="item.data._id"
-                                           :class="hasPermission('detail-role') ? 'cursor-pointer' : ''"
+                                      <div @click="hasPermission('ROLE-DPR') ? openDetailRole(item.data) : ''" :id="item.data._id"
+                                           :class="hasPermission('ROLE-DPR') ? 'cursor-pointer' : ''"
                                            class="role-name flex items-center">
                                           <div class="mr-1">{{ item.data.name }}</div>
                                           <el-tooltip
@@ -41,14 +41,14 @@
                                           </el-tooltip>
                                       </div>
                                       <div v-if="!item.data.is_protected" class="flex justify-center items-center mr-4">
-                                          <el-tooltip v-if="hasPermission('edit-role')" class="item" effect="dark" content="Chỉnh sửa" placement="bottom">
+                                          <el-tooltip v-if="hasPermission('ROLE-U')" class="item" effect="dark" content="Chỉnh sửa" placement="bottom">
                                               <inline-svg
                                                   @click="openModalRole(true, item.data)"
                                                   class="w-3 h-3 text-[#8a8b8c] hover:text-[#009ef7] !outline-none cursor-pointer"
                                                   :src="icon.pen"
                                               />
                                           </el-tooltip>
-                                          <el-tooltip v-if="hasPermission('delete-role')" class="item" effect="dark" content="Xóa" placement="bottom">
+                                          <el-tooltip v-if="hasPermission('ROLE-DEL')" class="item" effect="dark" content="Xóa" placement="bottom">
                                               <inline-svg
                                                   @click="handleDeleteRole(item.data._id)"
                                                   class="w-3 h-3 text-[#8a8b8c] hover:text-[#f56c6c] ml-2 !outline-none cursor-pointer"
@@ -82,7 +82,7 @@
                                         +{{admins.length - 3}}
                                     </div>
                                 </div>
-                                <div v-if="!role.is_protected && hasPermission('edit-admin')" class="flex items-center">
+                                <div v-if="!role.is_protected && hasPermission('ADM-U')" class="flex items-center">
                                     <div @click="openModalAdmin"
                                          class="w-[35px] h-[35px] flex items-center justify-center font-bold text-[#3a5e81] rounded-full text-xs border border-dashed border-[#3a5e81] cursor-pointer">
                                         +
@@ -91,7 +91,7 @@
                                 <div v-else-if="!admins.length"><i class="text-muted">Không có</i></div>
                             </div>
                             <el-table
-                                v-if="hasPermission('list-permission')"
+                                v-if="hasPermission('PERMISSION-L')"
                                 :data="permissionsGroup"
                                 style="width: 100%"
                                 row-key="_id"
@@ -131,9 +131,9 @@
                                             <div v-for="(item, i) in permission.row.permissions" :key="i">
                                                 <div v-if="item">
                                                     <el-checkbox v-if="type.code === item.permission_type_code"
-                                                                 v-model="item.active"
-                                                                 @change="updatePermissionForRole(item._id)"
-                                                                 :disabled="role.is_protected || !hasPermission('update-permissions-for-role')">
+                                                                 @change="updatePermissionForRole(item)"
+                                                                 :model-value="item?.isCheck"
+                                                                 :disabled="role.is_protected || !hasPermission('PERMISSION-U')">
                                                     </el-checkbox>
                                                 </div>
                                             </div>
@@ -253,7 +253,7 @@
                         </el-select>
                     </el-col>
                     <el-col :span="5" class="!flex justify-end">
-                        <el-button @click="handleAddRoleForAdmins" type="primary" class="btn-apply">
+                        <el-button @click="handleUpdateRoleForAdmins" type="primary" class="btn-apply">
                             Thêm mới
                         </el-button>
                     </el-col>
@@ -269,7 +269,7 @@
                                     <p v-else class="text-muted">Đang cập nhật</p>
                                 </div>
                             </div>
-                            <div class="admin-action mx-2" v-if="!item.is_new && hasPermission('edit-admin')">
+                            <div class="admin-action mx-2" v-if="!item.is_new && hasPermission('ADM-U')">
                                 <el-tooltip class="item" effect="dark" content="Xóa vai trò của nhân viên" placement="bottom">
                                     <inline-svg
                                         @click="handleRemoveAdminFromRole(item._id)"
@@ -289,7 +289,7 @@
 
 <script>
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb.vue";
-import { onMounted, ref, reactive, watch } from "vue";
+import {onMounted, ref, reactive, watch} from "vue";
 import { Getters, Mutations } from "@/store/enums/_type_enum";
 import { useStore } from "vuex";
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -323,6 +323,7 @@ export default {
             parent_id: "",
             name: "",
             description: "",
+            permission_ids: [],
             is_protected: false
         })
         const errorRole = reactive({
@@ -358,6 +359,10 @@ export default {
                 }
             ])
             getRoles()
+            if(hasPermission('PERMISSION-L')){
+                getListPermission()
+                getPermissionTypes()
+            }
         })
 
         /*Role*/
@@ -396,6 +401,9 @@ export default {
             role._id = ""
             role.parent_id = ""
             role.name = ""
+            role.description = ""
+            role.is_protected = false
+            role.permission_ids = []
             errorRole.errorName = ""
             errorRole.errorParent= ""
             errorRole.errorDescription= ""
@@ -486,6 +494,7 @@ export default {
 
         /*Admin*/
         const openModalAdmin = () => {
+            cloneAdmins.value = _.cloneDeep(admins.value)
             isShowModalPermission.value = true
             adminsSelected.value = []
             getAdminsWithoutRole()
@@ -497,24 +506,38 @@ export default {
                 ElMessage.error('Có lỗi xảy ra, vui lòng thử lại sau.')
             })
         }
-        const openDetailRole = (data) => {
+        const openDetailRole = async (data) => {
+            resetFormRole()
             detailRole.value = true
             role._id = data._id
             role.parent_id = data.parent_id
             role.name = data.name
             role.description = data.description
             role.is_protected = data.is_protected
+            role.permission_ids = data.permission_ids
             let unActive = document.querySelectorAll('.role-name')
             unActive.forEach(item => {
                 item.classList.remove('font-bold')
             })
             let active = document.getElementById(data._id)
             active.classList.add('font-bold')
+            permissionsGroup.value.forEach((o) => {
+                o = isCheckPermission(o)
+            })
             getAdminsRole()
-            if(hasPermission('list-permission')){
-                getListPermission(data._id)
-                getPermissionTypes()
+        }
+
+        const isCheckPermission = (data) => {
+            data.permissions.forEach((item) => {
+                item.isCheck = role.is_protected ? true : role.permission_ids.includes(item._id)
+            })
+            if(data.children.length > 0){
+                data.children.forEach((o) => {
+                    o = isCheckPermission(o)
+                })
             }
+            console.log(1)
+            return data
         }
         const getAdminsRole = (params = {}, hasRole = false) => {
             if(!hasRole){
@@ -528,7 +551,7 @@ export default {
             })
         }
         const getAdminsWithoutRole = () => {
-            api.getAdminsRole({}, true).then((res) => {
+            api.getAdminsRole({}, role._id).then((res) => {
                 adminsWithoutRole.value = _.get(res, 'data.data', []);
             }).catch(() => {
                 ElMessage.error('Có lỗi xảy ra, vui lòng thử lại sau.')
@@ -547,13 +570,13 @@ export default {
             })
             cloneAdmins.value = clone
         }
-        const handleAddRoleForAdmins = () => {
+        const handleUpdateRoleForAdmins = () => {
             if(adminsSelected.value.length > 0){
                 let data = new FormData()
                 adminsSelected.value.forEach((item, i) =>{
-                    data.append('admin_ids['+ i +']', item)
+                    data.append('employee_ids['+ i +']', item)
                 })
-                api.addRoleForAdmins(data, role._id).then(() => {
+                api.updateRoleForAdmins(data, role._id).then(() => {
                     isShowModalPermission.value = false
                     getAdminsRole()
                     ElMessage({
@@ -565,7 +588,7 @@ export default {
                 })
             }
         }
-        const handleRemoveAdminFromRole = (adminId) => {
+        const handleRemoveAdminFromRole = (id) => {
             ElMessageBox.confirm(
                 'Dữ liệu đã xóa không thể phục hồi, Bạn có muốn tiếp tục?',
                 'Xóa vai trò của nhân viên',
@@ -577,9 +600,12 @@ export default {
                     cancelButtonClass: 'btn-close',
                 }
             ).then(() => {
-                api.removeAdminFromRole(role._id, adminId).then(() => {
+                let data = new FormData()
+                data.append('employee_ids[0]', id)
+                data.append('is_remove', true)
+                api.updateRoleForAdmins(data, role._id).then(() => {
+                    isShowModalPermission.value = false
                     getAdminsRole()
-                    getAdminsWithoutRole()
                     ElMessage({
                         type: 'success',
                         message: 'Xóa vai trò của nhân viên thành công',
@@ -589,19 +615,24 @@ export default {
                 })
             })
         }
-        const getListPermission = (id) => {
-            api.getListPermission(id).then((res) => {
+        const getListPermission = () => {
+            api.getListPermission().then((res) => {
                 permissionsGroup.value = _.get(res, 'data.data', []);
             }).catch(() => {
                 ElMessage.error('Có lỗi xảy ra, vui lòng thử lại sau.')
             })
         }
-        const updatePermissionForRole = (permissionId) => {
-            api.updatePermissionForRole(role._id, permissionId).then(() => {
+        const updatePermissionForRole = (permission) => {
+            let data = {
+                permission_id : permission._id,
+                is_remove : permission.isCheck
+            }
+            api.updatePermissionForRole(role._id, data).then(() => {
                 ElMessage({
                     type: 'success',
                     message: 'Cập nhật quyền hạn của vai trò thành công',
                 })
+                permission.isCheck = !permission.isCheck
             }).catch(() => {
                 ElMessage.error('Có lỗi xảy ra, vui lòng thử lại sau.')
             })
@@ -609,6 +640,14 @@ export default {
 
         const hasPermission = (per) => {
             return store.getters[`authModule/${Getters.HAS_PERMISSION}`](per)
+        }
+
+        let isChecked = async (id) => {
+            if(role.is_protected){
+                return true
+            }else{
+                return role.permission_ids.includes(id)
+            }
         }
 
         return{
@@ -645,11 +684,12 @@ export default {
             getAdminsRole,
             getAdminsWithoutRole,
             selectAdminsRole,
-            handleAddRoleForAdmins,
+            handleUpdateRoleForAdmins,
             handleRemoveAdminFromRole,
             getListPermission,
             updatePermissionForRole,
-            hasPermission
+            hasPermission,
+            isChecked
         }
     }
 };

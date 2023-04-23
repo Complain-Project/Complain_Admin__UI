@@ -18,14 +18,14 @@ export const MENUS = [
 				route: "employees",
 				svgIcon: require('@/assets/images/icons/user.svg'),
 				index: 2,
-				permission: 'list-admin'
+				permission: 'ADM-L'
 			},
 			{
 				title: "Vai trò",
 				route: "roles",
 				svgIcon: require('@/assets/images/icons/role.svg'),
 				index: 3,
-				permission: 'list-role'
+				permission: 'ROLE-L'
 			},
 		],
 	},
