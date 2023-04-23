@@ -1,5 +1,5 @@
 <template>
-	<div id="admin">
+	<div id="admin" v-if="hasPermission('ADM-L')">
 		<section class="action">
 			<el-row class="action-wrap">
 				<el-col :span="12" class="action-wrap--col">
@@ -7,7 +7,7 @@
 				</el-col>
 				<el-col :span="12" class="action-wrap--col action-btn">
 					<div class="action-wrap--col__btn">
-						<el-button v-if="hasPermission('add-admin')" @click="openModalAddAdmin()" class="btn-apply">
+						<el-button v-if="hasPermission('ADM-C')" @click="openModalAddAdmin()" class="btn-apply">
 							<el-icon class="mr-[5px]">
 								<CirclePlus />
 							</el-icon>
@@ -66,16 +66,17 @@
 						<template #default="admin">
 							<el-switch v-if="authUserComputed._id !== admin.row._id && !admin.row.is_admin"
 							           @change="changeStatus(admin.row.status, admin.row._id)"
-							           v-model="admin.row.status" :inactive-value="0" :active-value="1"
+							           v-model="admin.row.status" :disabled="!hasPermission('ADM-U')"
+							           :inactive-value="0" :active-value="1"
 							           active-color="#13ce66" inactive-color="#ff4949">
 							</el-switch>
 						</template>
 					</el-table-column>
 					<el-table-column width="220px" align="center" prop="action" label="Hành động"
-					                 v-if="hasPermission('edit-admin') || hasPermission('delete-admin')">
+					                 v-if="hasPermission('ADM-U') || hasPermission('ADM-DEL')">
 						<template #default="admin">
 							<div v-if="authUserComputed._id !== admin.row._id && !admin.row.is_admin">
-								<el-tooltip v-if="hasPermission('edit-admin')" class="item" effect="dark"
+								<el-tooltip v-if="hasPermission('ADM-U')" class="item" effect="dark"
 								            content="Chỉnh sửa" placement="top">
 									<a class="btn btnRecharge el-button el-button--primary"
 									   @click="openModalUpdateAdmin(admin.row)">
@@ -84,7 +85,7 @@
 										</el-icon>
 									</a>
 								</el-tooltip>
-								<el-tooltip v-if="hasPermission('edit-admin')" class="item" effect="dark"
+								<el-tooltip v-if="hasPermission('ADM-U')" class="item" effect="dark"
 								            content="Đổi mật khẩu" placement="top">
 									<a class="btn btnRecharge el-button el-button--success"
 									   @click="openModalResetPassword(admin.row._id)">
@@ -93,7 +94,7 @@
 										</el-icon>
 									</a>
 								</el-tooltip>
-								<el-tooltip v-if="hasPermission('delete-admin')" class="item" effect="dark"
+								<el-tooltip v-if="hasPermission('ADM-DEL')" class="item" effect="dark"
 								            content="Xóa" placement="top">
 									<a class="btn btnRecharge el-button el-button--danger"
 									   @click="handleDeleteAdmin(admin.row._id)">
@@ -286,7 +287,7 @@ import { isValidEmail } from "@/utils/helpers/_email_helper";
 import { isValidPhone } from "@/utils/helpers/_phone_helper";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb.vue";
 import { useRouter } from "vue-router";
-import { computed, watch, onMounted, ref, reactive } from "vue";
+import { computed, watch, onMounted, ref, reactive, onBeforeMount } from "vue";
 import { Mutations, Getters } from "@/store/enums/_type_enum";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { Search } from "@element-plus/icons-vue";
@@ -353,6 +354,12 @@ export default {
 		/* Variables::end */
 		
 		/* Lifecycle hooks::start */
+		onBeforeMount(() => {
+			if (!hasPermission("ADM-L")) {
+				router.push({ name: "Error_403" });
+			}
+		});
+		
 		onMounted(() => {
 			store.commit(`layoutModule/${Mutations.SET_ACTIVE_MENU}`, 2);
 			store.commit(`homeModule/${Mutations.SET_BREADCRUMB}`, [
@@ -705,7 +712,7 @@ export default {
 			passwordConfirm.value = "";
 			is_active.value = 1;
 			roleIds.value = [];
-			districtId.value = ""
+			districtId.value = "";
 		};
 		
 		const getAllRoles = () => {

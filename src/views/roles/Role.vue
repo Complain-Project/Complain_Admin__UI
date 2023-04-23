@@ -289,7 +289,7 @@
 
 <script>
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb.vue";
-import {onMounted, ref, reactive, watch} from "vue";
+import { onMounted, ref, reactive, watch, onBeforeMount } from "vue";
 import { Getters, Mutations } from "@/store/enums/_type_enum";
 import { useStore } from "vuex";
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -345,7 +345,13 @@ export default {
                 errorRole.errorName = ""
             }
         });
-
+	
+	    onBeforeMount(() => {
+		    if (!hasPermission("PERMISSION-L")) {
+			    router.push({ name: "Error_403" });
+		    }
+	    });
+		
         onMounted(() => {
             store.commit(`layoutModule/${Mutations.SET_ACTIVE_MENU}`, 3)
             store.commit(`homeModule/${Mutations.SET_BREADCRUMB}`, [
@@ -359,10 +365,8 @@ export default {
                 }
             ])
             getRoles()
-            if(hasPermission('PERMISSION-L')){
-                getListPermission()
-                getPermissionTypes()
-            }
+	        getListPermission()
+	        getPermissionTypes()
         })
 
         /*Role*/

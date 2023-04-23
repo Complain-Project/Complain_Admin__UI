@@ -14,7 +14,7 @@ export const MENUS = [
 		heading: "Hệ thống",
 		pages: [
 			{
-				title: "Nhân viên",
+				title: "Cán bộ",
 				route: "employees",
 				svgIcon: require('@/assets/images/icons/user.svg'),
 				index: 2,
