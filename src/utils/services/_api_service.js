@@ -91,20 +91,14 @@ export default {
 		return apiAxios({
 			method: 'post',
 			url: 'admins/employees',
-			data: data,
-			headers: {
-				"Content-Type": "multipart/form-data",
-			}
+			data: data
 		})
 	},
 	updateAdmin(data, id) {
 		return apiAxios({
-			method: 'post',
+			method: 'patch',
 			url: 'admins/employees/' + id,
 			data: data,
-			headers: {
-				"Content-Type": "multipart/form-data",
-			}
 		})
 	},
 	deleteAdmin(id) {
@@ -116,25 +110,31 @@ export default {
 	changeStatusAdmin(data, id) {
 		return apiAxios({
 			method: 'patch',
-			url: 'admins/employees/update-status/' + id,
+			url: `admins/employees/${id}/status`,
 			data: data
 		})
 	},
 	resetPasswordAdmin(data, id) {
 		return apiAxios({
 			method: 'patch',
-			url: 'admins/employees/reset-password/' + id,
+			url: `admins/employees/${id}/password`,
 			data: data
 		})
 	},
 	getAllRoles() {
 		return apiAxios({
-			method: 'post',
-			url: 'admins/roles/all'
+			method: 'get',
+			url: 'admins/employees/roles'
+		})
+	},
+	getAllDistricts() {
+		return apiAxios({
+			method: 'get',
+			url: 'admins/employees/districts'
 		})
 	},
 	/* Admin::end */
-
+	
 	/* Role::start */
 	getRoles(params) {
 		return apiAxios({
@@ -203,7 +203,7 @@ export default {
 			data: data
 		})
 	},
-
+	
 	/* Role::end */
 
 	/* User::start */
