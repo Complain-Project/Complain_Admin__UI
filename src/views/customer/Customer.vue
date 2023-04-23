@@ -95,7 +95,7 @@
                         width="180px"
                         label="Trạng thái"
                         align="center"
-                        v-if="hasPermission('edit-user')"
+                        v-if="hasPermission('COMPLAINANT-U')"
                     >
                         <template #default="customer">
                             <el-switch

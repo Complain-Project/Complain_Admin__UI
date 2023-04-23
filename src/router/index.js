@@ -59,6 +59,18 @@ const routes = [
 		name: 'DetailCustomer',
 		component: () => import('@/views/customer/DetailCustomer.vue')
 	},
+
+	/* Khiếu nại*/
+	{
+		path: '/complains',
+		name: 'Complain',
+		component: () => import('@/views/complains/Complain.vue')
+	},
+	{
+		path: '/complain/:id',
+		name: 'DetailComplain',
+		component: () => import('@/views/complains/DetailComplain.vue')
+	},
 ]
 
 const router = createRouter({

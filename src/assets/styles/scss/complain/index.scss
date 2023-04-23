@@ -1,0 +1,98 @@
+#complain::v-deep{
+  .action {
+    margin-bottom: 10px;
+
+    .action-wrap {
+      display: flex;
+      justify-content: center;
+
+      &--col {
+        display: flex;
+        align-items: center;
+
+        &__title {
+          font-weight: 600;
+          font-size: 20px;
+          color: #0F2E5FFF;
+        }
+
+        &.action-btn {
+          display: flex;
+          justify-content: end;
+        }
+      }
+    }
+  }
+  .complain-main {
+    .list-complain {
+      padding-bottom: 0 !important;
+
+      .search-wrap {
+        margin-top: 5px;
+        padding-bottom: 20px;
+
+        input {
+          width: 100%;
+          height: 40px;
+        }
+      }
+
+      .complain-name {
+        text-decoration: none;
+        font-weight: bold;
+        color: #417AB0FF;
+
+        &.detail {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+.pagination-wrap{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  &--view{
+    width: 125px;
+  }
+  .el-select::v-deep{
+    .el-input__suffix{
+      right: 10px !important;
+    }
+    .el-input__wrapper{
+      background-color: #e3e9ed;
+    }
+    .el-input__inner{
+      border: none;
+      color: #395d80;
+      font-weight: 600;
+    }
+    i{
+      font-weight: bold;
+      color: #395d80;
+    }
+  }
+  &--page{
+    display: flex;
+    align-items: center;
+    color: gray;
+    .el-pagination::v-deep{
+      .number{
+        border: 1px solid #e6e9ed;
+        border-radius: 5px;
+        margin: 0 2.5px;
+        color: black;
+        &.active{
+          border: 1px solid rgb(47 85 122 / 62%);
+        }
+      }
+      button{
+        border: 1px solid #e6e9ed;
+        border-radius: 5px;
+        padding: 0;
+        margin: 0 2.5px;
+      }
+    }
+  }
+}
