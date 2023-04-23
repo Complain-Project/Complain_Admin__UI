@@ -241,7 +241,7 @@ export default {
 	updateCustomerStatus(data, id) {
 		return apiAxios({
 			method: "patch",
-			url: `admins/users/update-status/${id}`,
+			url: `admins/users/${id}/status`,
 			data: data
 		})
 	},

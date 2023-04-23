@@ -13,13 +13,7 @@
             </button>
         </div>
         <div class="header-right flex items-center">
-            <el-badge :value="3" class="item mr-2 pr-1 text-[#6b798f]">
-                <inline-svg
-                    class="w-4 h-4"
-                    :src="notification"
-                />
-            </el-badge>
-            <div class="user-name mx-3 pl-3 font-bold text-[#6b798f] border-l border-solid">{{authUserComputed.name}}</div>
+            <div class="user-name mx-3 pl-3 font-bold text-[#6b798f] border-solid">{{authUserComputed.name}}</div>
             <el-dropdown>
                 <span class="el-dropdown-link">
                   <el-avatar :size="37" :src="authUserComputed.avatar ? authUserComputed.avatar :userDefault" />

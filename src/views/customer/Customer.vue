@@ -5,15 +5,7 @@
                 <el-col :span="12" class="action-wrap--col">
                     <Breadcrumb/>
                 </el-col>
-                <el-col :span="12" class="action-wrap--col action-btn">
-                    <div class="action-wrap--col__btn" v-if="hasPermission('add-user')">
-                        <el-button @click="openModalCustomer()"
-                                   class="btn-apply">
-                            <el-icon class="mr-[5px]"><CirclePlus /></el-icon>
-                            Tạo mới khách hàng
-                        </el-button>
-                    </div>
-                </el-col>
+                <el-col :span="12" class="action-wrap--col action-btn"></el-col>
             </el-row>
         </section>
         <div class="customer-main">
@@ -25,7 +17,7 @@
                                 class="input-search"
                                 :prefix-icon="Search"
                                 clearable
-                                placeholder="Nhập vào tên hoặc số điện thoại để tìm kiếm"
+                                placeholder="Nhập vào tên, bí danh, email hoặc số điện thoại để tìm kiếm"
                                 v-model="searchKey"
                                 @clear="handleClear"
                                 @keydown.enter="handleSearch(1)"
@@ -44,19 +36,42 @@
                         label="Họ tên"
                         fixed>
                         <template #default="customer">
-                            <span @click="hasPermission('detail-user') ? redirectCustomer(customer.row._id) : ''"
-                                  :class="hasPermission('detail-user') ? 'detail' : ''"
-                                  class="customer-name">
-                                    {{ customer.row.name }}
-                                </span>
+                            <span class="customer-name">
+	                            {{ customer.row.name }}
+                            </span>
                         </template>
                     </el-table-column>
+	                <el-table-column
+		                prop="aliases"
+		                label="Bí danh"
+		                fixed>
+		                <template #default="customer">
+                            <span v-if="customer.row.aliases">
+	                            {{ customer.row.aliases }}
+                            </span>
+			                <span class="admin_link_none_cta" v-else>
+                              <i class="text-muted">Đang cập nhật</i>
+                            </span>
+		                </template>
+	                </el-table-column>
+	                <el-table-column
+		                prop="email"
+		                label="Email">
+		                <template #default="customer">
+			                <a :href="`mailto: ${customer.row.email}`" v-if="customer.row.email" class="decoration-none">
+				                <span>{{ customer.row.email }}</span>
+			                </a>
+			                <span class="admin_link_none_cta" v-else>
+                              <i class="text-muted">Đang cập nhật</i>
+                            </span>
+		                </template>
+	                </el-table-column>
                     <el-table-column
                         prop="phone"
                         label="Số điện thoại">
                         <template #default="customer">
                             <a :href="`tel: ${customer.row.phone}`" v-if="customer.row.phone" class="decoration-none">
-                                <span class="admin_link">{{ customer.row.phone }}</span>
+                                <span>{{ customer.row.phone }}</span>
                             </a>
                             <span class="admin_link_none_cta" v-else>
                               <i class="text-muted">Đang cập nhật</i>
@@ -65,41 +80,15 @@
                     </el-table-column>
                     <el-table-column
                         align="center"
-                        prop="phone_verified_at"
-                        label="Xác thực">
+                        prop="birthday"
+                        label="Ngày sinh">
                         <template #default="customer">
-                            <el-tag class="ml-2" :type="customer.row.phone_verified_at ? 'success' : 'info'">
-                                {{customer.row.phone_verified_at ? 'Đã xác thực' : 'Chưa xác thực'}}
-                            </el-tag>
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                        prop="points"
-                        align="center"
-                        label="Điểm">
-                        <template #default="customer">
-                            <span class="customer_link_none_cta">
-                              {{customer.row.points}}
+                            <span v-if="customer.row.birthday">
+                                {{ formatDateFormTimestamp(customer.row.birthday)}}
                             </span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                        align="center"
-                        prop="ref"
-                        label="Mã giới thiệu">
-                        <template #default="customer">
-                            <span v-if="customer.row.ref" class="cursor-pointer">
-                                {{customer.row.ref}}
-                                <el-tooltip
-                                    class="box-item"
-                                    effect="dark"
-                                    :content="isCopy"
-                                    placement="top"
-                                >
-                                    <el-icon class="ml-1" @click="copyRef(customer.row.ref)"><CopyDocument /></el-icon>
-                                </el-tooltip>
+                            <span class="admin_link_none_cta" v-else>
+                              <i class="text-muted">Đang cập nhật</i>
                             </span>
-                            <i v-else class="text-muted">Chưa có</i>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -110,46 +99,13 @@
                     >
                         <template #default="customer">
                             <el-switch
-                                @change="changeStatus(customer.row.is_active, customer.row._id)"
-                                v-model="customer.row.is_active"
-                                :inactive-value="false"
-                                :active-value="true"
+                                @change="changeStatus(customer.row.status, customer.row._id)"
+                                v-model="customer.row.status"
+                                :inactive-value="0"
+                                :active-value="1"
                                 active-color="#13ce66"
                                 inactive-color="#ff4949">
                             </el-switch>
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                        width="220px"
-                        align="center"
-                        prop="action"
-                        label="Hành động"
-                        v-if="hasPermission('edit-user') || hasPermission('delete-user')"
-                    >
-                        <template #default="customer">
-                            <div class="action">
-                                <el-tooltip class="item" effect="dark" content="Chỉnh sửa" placement="top">
-                                    <a  v-if="hasPermission('edit-user')"
-                                        class="btn btnRecharge el-button el-button--primary"
-                                        @click="openModalCustomer(customer.row)">
-                                        <el-icon><EditPen /></el-icon>
-                                    </a>
-                                </el-tooltip>
-                                <el-tooltip class="item" effect="dark" content="Đổi mật khẩu" placement="top">
-                                    <a  v-if="hasPermission('edit-user')"
-                                        class="btn btnRecharge el-button el-button--success"
-                                        @click="modalResetPassword(customer.row._id)">
-                                        <el-icon><Refresh /></el-icon>
-                                    </a>
-                                </el-tooltip>
-                                <el-tooltip class="item" effect="dark" content="Xóa" placement="top">
-                                    <a  v-if="hasPermission('delete-user')"
-                                        class="btn btnRecharge el-button el-button--danger"
-                                        @click="handleDeleteCustomer(customer.row._id)">
-                                        <el-icon><Delete /></el-icon>
-                                    </a>
-                                </el-tooltip>
-                            </div>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -171,97 +127,13 @@
                             :total="page.total"
                             :page-size="page.pageSize"
                             :current-page="page.currentPage"
-                            @current-change="handleChangeCurrentPage()"
+                            @current-change="handleChangeCurrentPage"
                         >
                         </el-pagination>
                     </div>
                 </div>
             </el-card>
         </div>
-        <el-dialog
-            width="35%"
-            :title="modalTitle"
-            v-model="modalCustomer"
-            class="modal-customer"
-            :close-on-click-modal="false"
-        >
-            <div class="modal-customer__content">
-                <div class="input-warp w-full">
-                    <label>Họ tên
-                        <span class="required">*</span>
-                    </label>
-                    <el-input v-model="customer.name"></el-input>
-                    <div v-if="errors.name !== '' " class="error">
-                        <span> {{ errors.name }} </span>
-                    </div>
-                </div>
-                <div class="input-warp w-full">
-                    <label>Số điện thoại
-                        <span class="required">*</span>
-                    </label>
-                    <el-input v-model="customer.phone"></el-input>
-                    <div v-if="errors.phone !== '' " class="error">
-                        <span> {{ errors.phone }} </span>
-                    </div>
-                </div>
-                <div v-if="!isUpdate" class="input-warp w-full">
-                    <label>Mật khẩu <span class="required">*</span></label>
-                    <el-input type="password" v-model="customer.password"></el-input>
-                    <div v-if="errors.password !== '' " class="error">
-                        <span> {{ errors.password }} </span>
-                    </div>
-                </div>
-                <div class="input-warp mb-0">
-                    <label class="mb-1 d-block">Trạng thái: <span class="font-weight-bold">{{
-                            customer.is_active ? "Kích hoạt" : "Khóa"
-                        }}</span>
-                    </label>
-                    <el-switch
-                        v-model="customer.is_active"
-                        :active-value="true"
-                        :inactive-value="false"
-                        active-color="#13ce66"
-                        inactive-color="#ff4949">
-                    </el-switch>
-                </div>
-            </div>
-            <template #footer>
-                <el-button class="btn-close" @click="closeModal">Hủy</el-button>
-                <el-button class="btn-apply" @click="isUpdate ? handleUpdateCustomer() : handleCreateCustomer()">
-                    Lưu
-                </el-button>
-            </template>
-        </el-dialog>
-        <el-dialog
-            width="25%"
-            v-loading="loading"
-            :title="'Đổi mật khẩu khách hàng '"
-            v-model="modalPassword"
-            class="modal-customer"
-            :close-on-click-modal="false"
-        >
-            <el-row>
-                <div class="input-warp w-full">
-                    <label>Mật khẩu mới <span class="required">*</span></label>
-                    <el-input type="password" v-model="customer.password"></el-input>
-                    <div v-if="errors.password !== '' " class="error">
-                        <span> {{ errors.password }} </span>
-                    </div>
-                </div>
-                <div class="input-warp w-full">
-                    <label>Xác nhận mật khẩu mới <span class="required">*</span></label>
-                    <el-input type="password" v-model="customer.passwordConfirm"></el-input>
-                    <div v-if="errors.passwordConfirm !== '' " class="error">
-                        <span> {{ errors.passwordConfirm }} </span>
-                    </div>
-                </div>
-            </el-row>
-            <template #footer>
-                <el-button class="btn-close"
-                           @click="closeModal()">Hủy</el-button>
-                <el-button class="btn-apply" @click="handleResetPassword()">Lưu</el-button>
-            </template>
-        </el-dialog>
     </div>
 </template>
 
@@ -276,9 +148,11 @@ import _ from "lodash";
 import { Search } from '@element-plus/icons-vue'
 import { isValidPhone } from "@/utils/helpers/_phone_helper";
 import { useRouter } from "vue-router";
+import { formatDateFormTimestamp } from "@/utils/helpers/_time_helper";
 
 export default {
     name: "CustomerComponent",
+	methods: { formatDateFormTimestamp },
     components: {
         Breadcrumb
     },
@@ -339,7 +213,7 @@ export default {
                 },
                 {
                     path: window.location.pathname,
-                    name: 'Danh sách khách hàng',
+                    name: 'Danh sách người khiếu nại',
                 }
             ])
             getListCustomers()
@@ -350,8 +224,8 @@ export default {
             loading.value = true
             params.per_page = viewSelected.value
             api.getListCustomers(params).then((res) => {
-                page.currentPage = _.get(res, 'data.data.currentPage');
-                page.pageSize = parseInt(_.get(res, 'data.data.perPage'));
+                page.currentPage = _.get(res, 'data.data.current_page');
+                page.pageSize = parseInt(_.get(res, 'data.data.per_page'));
                 page.total = _.get(res, 'data.data.total', 0);
                 customers.value = _.get(res, 'data.data.data')
                 loading.value = false
@@ -360,13 +234,13 @@ export default {
             })
         }
 
-        const handleSearch = (page = null) => {
+        const handleSearch = (data = null) => {
             let payload = {}
             if (searchKey.value.length > 0) {
                 payload.q = searchKey.value;
             }
-            if (page) {
-                payload.page = page
+            if (data) {
+                payload.page = data
             } else {
                 payload.page = page.currentPage
             }
@@ -601,16 +475,15 @@ export default {
 
         const changeStatus = (status, id) => {
             let data = {
-                is_active: status ? 1 : 0
+                status: status ? 1 : 0
             }
             api.updateCustomerStatus(data, id).then(() => {
                 ElMessage({
                     message: 'Cập nhật trạng thái thành công!',
                     type: 'success',
                 })
-            }).catch((error) => {
-                let messageError = _.get(error.response, 'data.message');
-                ElMessage.error(messageError ? messageError : "Có lỗi xảy ra, vui lòng thử lại sau!")
+            }).catch(() => {
+                ElMessage.error("Có lỗi xảy ra, vui lòng thử lại sau!")
             });
         }
 
