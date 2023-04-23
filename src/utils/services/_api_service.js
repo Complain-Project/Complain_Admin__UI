@@ -146,7 +146,7 @@ export default {
 	getRolesAction(data) {
 		return apiAxios({
 			method: "post",
-			url: "admins/roles/all",
+			url: "admins/roles/action",
 			data: data
 		})
 	},
@@ -159,7 +159,7 @@ export default {
 	},
 	updateRole(data, id) {
 		return apiAxios({
-			method: "put",
+			method: "patch",
 			url: "admins/roles/" + id,
 			data: data
 		})
@@ -176,10 +176,10 @@ export default {
 			url: "admins/roles/permission-types"
 		})
 	},
-	getListPermission(id){
+	getListPermission(){
 		return apiAxios({
 			method: "get",
-			url:`admins/permissions/${id}`
+			url:`admins/permissions`
 		})
 	},
 	getAdminsRole(params, id){
@@ -189,23 +189,18 @@ export default {
 			params: params
 		})
 	},
-	addRoleForAdmins(data, id){
+	updateRoleForAdmins(data, id){
 		return apiAxios({
 			method: "post",
 			url: `admins/roles/update-role-for-employees/${id}`,
 			data: data
 		})
 	},
-	removeAdminFromRole(roleId, adminId){
+	updatePermissionForRole(id, data){
 		return apiAxios({
-			method: "post",
-			url: `admins/roles/${roleId}/remove-role-from-employees/${adminId}`,
-		})
-	},
-	updatePermissionForRole(roleId,permissionId){
-		return apiAxios({
-			method: "post",
-			url: `admins/roles/${roleId}/update-permission/${permissionId}`
+			method: "patch",
+			url: `admins/roles/sync-permissions/${id}`,
+			data: data
 		})
 	},
 
