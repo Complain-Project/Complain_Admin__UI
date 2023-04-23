@@ -37,7 +37,14 @@ export const MENUS = [
 				route: "customers",
 				svgIcon: require('@/assets/images/icons/user-group.svg'),
 				index: 4,
-				permission: 'list-user'
+				permission: 'COMPLAINANT-L'
+			},
+			{
+				title: "Khiếu nại",
+				route: "complains",
+				svgIcon: require('@/assets/images/icons/shield.svg'),
+				index: 5,
+				permission: ''
 			},
 		],
 	},

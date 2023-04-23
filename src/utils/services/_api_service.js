@@ -266,6 +266,35 @@ export default {
 	},
 	/* User::end */
 
+	/* Complains::start*/
+	getListComplains(params){
+		return apiAxios({
+			method: "get",
+			url: `admins/complains`,
+			params: params
+		})
+	},
+	getDistrictsComplain(){
+		return apiAxios({
+			method: "get",
+			url: `admins/complains/districts`
+		})
+	},
+	getDetailComplain(id){
+		return apiAxios({
+			method: "get",
+			url: `admins/complains/${id}`
+		})
+	},
+	replyComplain(data, id){
+		return apiAxios({
+			method: "post",
+			url: `admins/complains/reply/${id}`,
+			data: data
+		})
+	},
+	/* Complains::end*/
+
 	createLaSoTuVi(data) {
 		return apiAxios({
 			method: 'post',
