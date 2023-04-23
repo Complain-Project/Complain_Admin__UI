@@ -17,17 +17,8 @@
                                 <span class="text-lg">Cập nhật thông tin cá nhân</span>
                             </el-col>
                             <el-col :span="24" class="mt-3" v-loading="loading">
-                                <div class="upload__wrapper__upload relative w-4/12">
-                                    <el-upload
-                                        class="avatar-uploader flex justify-center" action="#"
-                                        :auto-upload="false" :show-file-list="false"
-                                        :on-change="handleChangeAvatar">
-                                        <img v-if="avatar" :src="avatar" class="avatar">
-                                        <el-icon v-else class="el-icon-plus avatar-uploader-icon"><Plus /></el-icon>
-                                    </el-upload>
-                                </div>
                                 <div class="mb-3 mt-3">
-                                    <label>Tên hiển thị <span class="text-red-600">*</span></label>
+                                    <label>Họ tên <span class="text-red-600">*</span></label>
                                     <el-input v-model="name"></el-input>
                                     <div v-if="errorName !== '' " class="text-red-600 mt-1">
                                         <span> {{ errorName }} </span>
@@ -47,6 +38,10 @@
                                         <span> {{ errorPhone }} </span>
                                     </div>
                                 </div>
+	                            <div class="mb-3">
+		                            <label>Huyện</label>
+		                            <el-input :value="district" readonly></el-input>
+	                            </div>
                                 <div class="text-right mt-3">
                                     <el-button type="primary" class="btn-apply" @click="handleUpdateInfo()">Lưu
                                     </el-button>
@@ -62,13 +57,6 @@
                             </el-col>
                             <el-col :span="24" class="mt-3">
                                 <div class="mainForm" v-loading="loadingPassword">
-                                    <div class="mb-3">
-                                        <label>Mật khẩu cũ <span class="text-red-600">*</span></label>
-                                        <el-input show-password v-model="current_password"></el-input>
-                                        <div v-if="errorCurrentPassword !== '' " class="text-red-600 mt-1">
-                                            <span> {{ errorCurrentPassword }} </span>
-                                        </div>
-                                    </div>
                                     <div class="mb-3">
                                         <label>Mật khẩu mới <span class="text-red-600">*</span></label>
                                         <el-input show-password v-model="password"></el-input>
@@ -120,6 +108,7 @@ export default {
         let email = ref("")
         let phone = ref("")
         let avatar = ref("");
+        let district = ref("");
         let errorName = ref("")
         let errorEmail = ref("")
         let errorPhone = ref("")
@@ -214,13 +203,12 @@ export default {
         const handleUpdateInfo = () => {
             if (isValidInfo()) {
                 loading.value = true;
-                let data = new FormData()
-                data.append("name", name.value)
-                data.append("phone", phone.value)
-                data.append("email", email.value)
-                if(fileUpload.value){
-                    data.append("avatar", fileUpload.value)
-                }
+	            let data = {
+		            "name": name.value,
+		            "phone": phone.value,
+		            "email": email.value,
+	            }
+				
                 api.updateInfoAdmin(data).then(() => {
                     ElMessage({
                         message: 'Cập nhật thành công!',
@@ -231,12 +219,12 @@ export default {
                     getAuthUser();
                 }).catch((error) => {
                     let status = _.get(error, "response.statusCode");
-                    let errorDetails = _.get(error.response, 'data.details[0]', {});
+                    let errorDetails = _.get(error.response, 'data.errors', {});
 
                     if (Object.keys(errorDetails).length > 0) {
-                        errorName.value = _.get(errorDetails, 'name', "");
-                        errorPhone.value = _.get(errorDetails, 'phone', "");
-                        errorEmail.value = _.get(errorDetails, 'email', "");
+                        errorName.value = _.get(errorDetails, 'name[0]', "");
+                        errorPhone.value = _.get(errorDetails, 'phone[0]', "");
+                        errorEmail.value = _.get(errorDetails, 'email[0]', "");
                     } else if (status === 401) {
                         router.push({name: 'Login'})
                     } else if (status === 403) {
@@ -252,6 +240,10 @@ export default {
 
         const closeProfileDrawer = () => {
             store.commit(`layoutModule/${Mutations.SET_COLLAPSE_PROFILE}`, false)
+	        password.value = "";
+	        password_confirmation.value = "";
+	        errorPassword.value = ""
+	        errorPasswordConfirmation.value = ""
         }
 
         const getAuthUser = () => {
@@ -261,6 +253,7 @@ export default {
                 email.value = _.get(res, 'data.data.email', '')
                 phone.value = _.get(res, 'data.data.phone', '')
                 avatar.value = _.get(res, 'data.data.avatar', '')
+	            district.value = _.get(res, 'data.data.district.name', '')
                 store.commit(`authModule/${Mutations.SET_AUTH}`, _.get(res, 'data.data'))
                 loading.value = false;
             })
@@ -268,10 +261,6 @@ export default {
 
         const validPassword = () => {
             let error = false;
-            if (current_password.value.length === 0) {
-                error = true;
-                errorCurrentPassword.value = "Mật khẩu cũ không được bỏ trống"
-            }
             if (password.value.length === 0) {
                 error = true;
                 errorPassword.value = "Mật khẩu mới không được bỏ trống"
@@ -279,10 +268,6 @@ export default {
             if (password_confirmation.value.length === 0) {
                 error = true;
                 errorPasswordConfirmation.value = "Mật khẩu xác nhận không được để trống"
-            }
-            if (current_password.value && password.value && current_password.value === password.value) {
-                error = true;
-                errorPassword.value = "Mật khẩu mới phải khác mật khẩu hiện tại"
             }
             if (password.value && password_confirmation.value && password.value !== password_confirmation.value) {
                 error = true;
@@ -296,7 +281,6 @@ export default {
             if (validPassword()) {
                 loadingPassword.value = true;
                 let data = {
-                    current_password: current_password.value,
                     password: password.value,
                     confirm_password: password_confirmation.value
                 }
@@ -308,22 +292,8 @@ export default {
                     loadingPassword.value = false;
 
                     logout();
-                }).catch((error) => {
-                    let status = _.get(error, "response.statusCode");
-                    let errorDetails = _.get(error.response, 'data.details[0]', {});
-
-                    if (Object.keys(errorDetails).length > 0) {
-                        errorPassword.value = _.get(errorDetails, 'password', "");
-                        errorCurrentPassword.value = _.get(errorDetails, 'current_password', "");
-                        errorPasswordConfirmation.value = _.get(errorDetails, 'confirm_password', "");
-                    } else if (status === 401) {
-                        router.push({name: 'Login'})
-                    } else if (status === 403) {
-                        router.push({name: 'Home', params: {errorPermission: "true"}});
-                    } else {
-                        let messageError = _.get(error.response, 'data.message');
-                        ElMessage.error(messageError ? messageError : "Có lỗi xảy ra, vui lòng thử lại sau!")
-                    }
+                }).catch(() => {
+	                ElMessage.error("Có lỗi xảy ra, vui lòng thử lại sau!")
 
                     loadingPassword.value = false;
                 })
@@ -372,6 +342,7 @@ export default {
             email,
             phone,
             avatar,
+	        district,
             errorName,
             errorEmail,
             errorPhone,

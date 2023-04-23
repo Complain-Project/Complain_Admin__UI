@@ -62,18 +62,15 @@ export default {
 	},
 	updateInfoAdmin(data) {
 		return apiAxios({
-			method: 'post',
-			url: 'admin/auth/update-info',
-			data: data,
-			headers: {
-				"Content-Type": "multipart/form-data",
-			}
+			method: 'patch',
+			url: 'admins/self',
+			data: data
 		})
 	},
 	changeAuthPassword(data) {
 		return apiAxios({
-			method: 'post',
-			url: 'admin/auth/change-password',
+			method: 'patch',
+			url: 'admins/self/password',
 			data: data
 		})
 	},
