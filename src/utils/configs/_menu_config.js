@@ -30,10 +30,10 @@ export const MENUS = [
 		],
 	},
 	{
-		heading: "Khách hàng",
+		heading: "Khiếu nại",
 		pages: [
 			{
-				title: "Quản lý khách hàng",
+				title: "Quản lý người khiếu nại",
 				route: "customers",
 				svgIcon: require('@/assets/images/icons/user-group.svg'),
 				index: 4,

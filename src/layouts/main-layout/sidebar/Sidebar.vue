@@ -1,7 +1,7 @@
 <template>
 	<section
 		class="bg-gray-900 h-screen w-[64px] transition-all duration-300 ease-in"
-		:class="{'!w-[240px]': collapseSidebarComputed}"
+		:class="{'!w-[280px]': collapseSidebarComputed}"
 	>
 		<!-- Top::start -->
 		<section
@@ -195,8 +195,8 @@ export default {
 		/* Variables::start */
 		const menus = ref(MENUS);
 		
-		const defaultLogo = ref(require("@/assets/images/logos/logo.png"));
-		const defaultLogoCollapse = ref(require("@/assets/images/logos/logoCollapse.png"));
+		const defaultLogo = ref(require("@/assets/images/logos/default-dark.svg"));
+		const defaultLogoCollapse = ref(require("@/assets/images/logos/default-small.svg"));
 		const subIcon = ref(require("@/assets/images/icons/angle-right.svg"));
 		const collapseIcon = ref(require("@/assets/images/icons/chevrons-left.svg"));
 		/* Variables::end */

@@ -176,7 +176,7 @@ export default {
 
             if (name.value.length === 0) {
                 error = true;
-                errorName.value = 'Tên khách hàng không được để trống';
+                errorName.value = 'Họ tên không được để trống';
             }
 
             if (email.value.length === 0) {
