@@ -347,7 +347,7 @@ export default {
         });
 	
 	    onBeforeMount(() => {
-		    if (!hasPermission("PERMISSION-L")) {
+		    if (!hasPermission("ROLE-L")) {
 			    router.push({ name: "Error_403" });
 		    }
 	    });
@@ -365,8 +365,10 @@ export default {
                 }
             ])
             getRoles()
-	        getListPermission()
-	        getPermissionTypes()
+            if (!hasPermission("PERMISSION-L")) {
+                getListPermission()
+                getPermissionTypes()
+            }
         })
 
         /*Role*/
@@ -540,7 +542,6 @@ export default {
                     o = isCheckPermission(o)
                 })
             }
-            console.log(1)
             return data
         }
         const getAdminsRole = (params = {}, hasRole = false) => {
