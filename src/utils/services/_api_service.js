@@ -300,7 +300,24 @@ export default {
 		})
 	},
 	/* Complains::end*/
-
+	
+	/* Dashboard::start */
+	getDistricts() {
+		return apiAxios({
+			method: 'get',
+			url: 'admins/dashboards/districts',
+		})
+	},
+	
+	getStatisticals(data) {
+		return apiAxios({
+			method: 'get',
+			url: 'admins/dashboards/statistical',
+			params: data
+		})
+	},
+	/* Dashboard::end */
+	
 	/* Post::start */
 	getPosts(params){
 		return apiAxios({
@@ -368,5 +385,4 @@ export default {
 		})
 	},
 	/* Post:end */
-
 }
