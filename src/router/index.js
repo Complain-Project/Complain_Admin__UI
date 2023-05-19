@@ -20,13 +20,6 @@ const routes = [
 		component: () => import('@/views/auth/Login.vue')
 	},
 
-	/* Lá số tử vi */
-	{
-		path: '/la-so-tu-vi/:idUser/:idLaSo',
-		name: 'LaSoTuVi',
-		component: () => import('@/views/laSoTuVi/LaSoTuVi.vue')
-	},
-
 	/* errors */
 	{
 		path: '/403',
@@ -70,6 +63,23 @@ const routes = [
 		path: '/complain/:id',
 		name: 'DetailComplain',
 		component: () => import('@/views/complains/DetailComplain.vue')
+	},
+
+	/*Bài viết*/
+	{
+		path: '/posts',
+		name: 'Post',
+		component: () => import('@/views/post/Post.vue')
+	},
+	{
+		path: '/post/create',
+		name: 'CreatePost',
+		component: () => import('@/views/post/CreateOrUpdatePost.vue')
+	},
+	{
+		path: '/post/:id/edit',
+		name: 'UpdatePost',
+		component: () => import('@/views/post/CreateOrUpdatePost.vue')
 	},
 ]
 

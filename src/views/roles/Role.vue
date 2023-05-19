@@ -350,6 +350,10 @@ export default {
 		    if (!hasPermission("ROLE-L")) {
 			    router.push({ name: "Error_403" });
 		    }
+            if (hasPermission("PERMISSION-L")) {
+                getListPermission()
+                getPermissionTypes()
+            }
 	    });
 		
         onMounted(() => {
@@ -365,10 +369,6 @@ export default {
                 }
             ])
             getRoles()
-            if (!hasPermission("PERMISSION-L")) {
-                getListPermission()
-                getPermissionTypes()
-            }
         })
 
         /*Role*/

@@ -15,3 +15,7 @@ export const  COMPLAIN_STATUS_DATA = [
         value: COMPLAIN_STATUS['PROCESSED']
     }
 ]
+
+export const POST_STATUS = []
+POST_STATUS['PENDING'] = 0
+POST_STATUS['ACCEPT'] = 1

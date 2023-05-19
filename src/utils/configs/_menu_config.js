@@ -48,40 +48,16 @@ export const MENUS = [
 			},
 		],
 	},
-	// {
-	// 	heading: "Quản lý",
-	// 	pages: [
-	// 		{
-	// 			sectionTitle: "Nội dung",
-	// 			svgIcon: require('@/assets/images/icons/bookmark.svg'),
-	// 			permission: '',
-	// 			subs: [
-	// 				{
-	// 					title: "Khóa học",
-	// 					route: "courses",
-	// 					index: 4,
-	// 					permission: ''
-	// 				},
-	// 				{
-	// 					title: "Danh mục",
-	// 					route: "categories",
-	// 					index: 5,
-	// 					permission: ''
-	// 				},
-	// 				{
-	// 					title: "Hướng dẫn",
-	// 					route: "instructors",
-	// 					index: 6,
-	// 					permission: ''
-	// 				},
-	// 				{
-	// 					title: "Thư viện",
-	// 					route: "libraries",
-	// 					index: 7,
-	// 					permission: ''
-	// 				},
-	// 			],
-	// 		},
-	// 	],
-	// },
+	{
+		heading: "Quản lý",
+		pages: [
+			{
+				title: "Bài viết",
+				route: "posts",
+				svgIcon: require('@/assets/images/icons/file-invoice.svg'),
+				index: 6,
+				permission: 'POST-L'
+			},
+		],
+	},
 ];

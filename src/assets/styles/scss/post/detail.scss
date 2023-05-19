@@ -1,0 +1,122 @@
+#post::v-deep {
+  .action {
+    margin-bottom: 10px;
+
+    .action-wrap {
+      display: flex;
+      justify-content: center;
+
+      &--col {
+        display: flex;
+        align-items: center;
+
+        &__title {
+          font-weight: 600;
+          font-size: 20px;
+          color: #0F2E5FFF;
+        }
+
+        &.action-btn {
+          display: flex;
+          justify-content: end;
+        }
+      }
+    }
+  }
+  .label-post{
+    @apply text-sm font-bold text-[#3f6079] mb-2.5
+  }
+  .required:after{
+    content: " *";
+    @apply text-[#f54b5e]
+  }
+
+  .avatar-uploader {
+    .el-upload {
+      border: 1px dashed #d9d9d9;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      aspect-ratio: 3/2;
+
+      &:hover {
+        border-color: #409EFF;
+      }
+
+      .avatar {
+        width: 100%;
+        aspect-ratio: 3/2;
+        display: block;
+        object-fit: cover;
+      }
+
+      .avatar-uploader-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 28px;
+        color: #8c939d;
+        width: 100%;
+        aspect-ratio: 3/2;
+        text-align: center;
+      }
+    }
+  }
+
+  .avatar-delete-icon {
+    position: absolute;
+    color: #FFFFFF;
+    top: -10px;
+    right: -11px;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 4px;
+    background: #c0c4cc;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .upload__wrapper__upload{
+    margin: 0 auto;
+  }
+
+  .ck-editor__editable_inline {
+    min-height: 600px;
+  }
+
+  .post-action{
+    margin-top: 60px;
+    .button-cancel{
+      border: none;
+    }
+    &--wrap{
+      border-radius: 4px 4px 0 0;
+      position: fixed;
+      background: white;
+      width: -webkit-fill-available;
+      bottom: 0;
+      padding: 20px;
+      z-index: 1000;
+      margin-right: 30px;
+      box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+      .post-row{
+        &__col{
+          &__right{
+            text-align: right;
+            .button-apply {
+              background: #2f557af2 !important;
+              color: #ffffff !important;
+              border: none !important;
+
+              &:hover {
+                background: #2f557ad6 !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+#post::v-deep {
+  .action {
+    margin-bottom: 10px;
+
+    .action-wrap {
+      display: flex;
+      justify-content: center;
+
+      &--col {
+        display: flex;
+        align-items: center;
+
+        &__title {
+          font-weight: 600;
+          font-size: 20px;
+          color: #0F2E5FFF;
+        }
+
+        &.action-btn {
+          display: flex;
+          justify-content: end;
+        }
+      }
+    }
+  }
+  .btn-category {
+    float: left;
+    background-color: #409EFF;
+    color: #ffffff;
+    border: none;
+    font-size: 14px;
+    line-height: 14px;
+    padding: 12px 20px;
+    height: auto;
+    
+    &:hover {
+      background: #89c3ff;
+    }
+  }
+}

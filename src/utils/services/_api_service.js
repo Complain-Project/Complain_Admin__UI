@@ -293,14 +293,80 @@ export default {
 			data: data
 		})
 	},
+	downloadFile(id){
+		return apiAxios({
+			method: "post",
+			url: `admins/complains/download/${id}`
+		})
+	},
 	/* Complains::end*/
 
-	createLaSoTuVi(data) {
+	/* Post::start */
+	getPosts(params){
 		return apiAxios({
-			method: 'post',
-			url: 'la-so-tu-vi/lap-la-so',
+			method: "get",
+			url: `admins/posts`,
+			params: params
+		})
+	},
+	updateStatusShowPost(data, id){
+		return apiAxios({
+			method: "post",
+			url: `admins/posts/${id}/update-status`,
 			data: data
 		})
 	},
+	getListTags(){
+		return apiAxios({
+			method: "get",
+			url: `admins/posts/all-tags`
+		})
+	},
+	createTag(data){
+		return apiAxios({
+			method: "post",
+			url: `admins/posts/add-tag`,
+			data: data
+		})
+	},
+	getListCategories(){
+		return apiAxios({
+			method: "get",
+			url: `admins/posts/all-post-category`
+		})
+	},
+	getDetailPost(id){
+		return apiAxios({
+			method: "get",
+			url: `admins/posts/${id}`
+		})
+	},
+	createPost(data){
+		return apiAxios({
+			method: "post",
+			url: "admins/posts",
+			data: data,
+			headers: {
+				"Content-Type": "multipart/form-data",
+			}
+		})
+	},
+	updatePost(data, id){
+		return apiAxios({
+			method: "post",
+			url: `admins/posts/${id}`,
+			data: data,
+			headers: {
+				"Content-Type": "multipart/form-data",
+			}
+		})
+	},
+	deletePost(id){
+		return apiAxios({
+			method: "delete",
+			url: `admins/posts/${id}`,
+		})
+	},
+	/* Post:end */
 
 }

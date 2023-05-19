@@ -1,0 +1,54 @@
+#category::v-deep {
+  .action {
+    margin-bottom: 10px;
+
+    .action-wrap {
+      display: flex;
+      justify-content: center;
+
+      &--col {
+        display: flex;
+        align-items: center;
+
+        &__title {
+          font-weight: 600;
+          font-size: 20px;
+          color: #0F2E5FFF;
+        }
+
+        &.action-btn {
+          display: flex;
+          justify-content: end;
+        }
+      }
+    }
+  }
+
+  .modal-category{
+    .input-warp {
+      margin-bottom: 10px;
+
+      label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #3f6079;;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .el-select, .el-input {
+        .el-input__wrapper {
+          @apply w-full
+        }
+        i {
+          font-weight: bold;
+        }
+        @apply w-full
+      }
+      .required:after{
+        content: " *";
+        color: #F54B5EFF;
+      }
+    }
+  }
+}

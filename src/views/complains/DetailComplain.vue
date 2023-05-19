@@ -86,7 +86,7 @@
 										</div>
 									</el-col>
 									<el-col :span="4">
-										<a :href="complain.attachment"
+										<el-button @click="downloadFile(complain.attachment)"
 										   download class="flex justify-end"
 										   v-if="complain.attachment">
 											<el-button type="primary" class="!bg-[#409eff]">
@@ -95,7 +95,7 @@
 												</el-icon>
 												<span class="ml-0.5">File đính kèm</span>
 											</el-button>
-										</a>
+										</el-button>
 									</el-col>
 								</el-row>
 							
@@ -359,6 +359,19 @@ export default {
 			}
 			return !error;
 		};
+
+		const downloadFile = (fileName) => {
+			api.downloadFile(complain._id).then((response) => {
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement('a');
+				link.href = url;
+				let formatFile = fileName.substr(fileName.lastIndexOf('.') + 1, fileName.length);
+				let name = fileName.substr(0, fileName.lastIndexOf('.') + 1);
+				link.setAttribute('download', `${name}.${formatFile}`);
+				document.body.appendChild(link);
+				link.click()
+			})
+		}
 		
 		watch(reply, () => {
 			errorReply.value = "";
@@ -387,7 +400,8 @@ export default {
 			formatDateComplain,
 			formatDate,
 			replyComplain,
-			formatBirthday
+			formatBirthday,
+			downloadFile
 		};
 	}
 };
