@@ -9,7 +9,7 @@
                 label="Tiêu đề"
                 fixed>
             <template #default="post">
-                <span v-if="post.row.title" class="post-title break-normal detail">
+                <span v-if="post.row.title" class="post-title break-normal">
                     {{ post.row.title }}
                 </span>
                 <i v-else class="text-muted">Đang cập nhật</i>
@@ -41,7 +41,7 @@
                 width="180px"
                 label="Trạng thái"
                 align="center"
-                v-if="hasPermission('edit-post')"
+                v-if="hasPermission('POST-U')"
         >
             <template #default="post">
                 <el-switch
@@ -55,15 +55,23 @@
             </template>
         </el-table-column>
         <el-table-column
+                label="Ngày tạo"
+                align="center"
+        >
+            <template #default="post">
+                {{ formatDate(post.row.created_at) }}
+            </template>
+        </el-table-column>
+        <el-table-column
             align="center"
             prop="action"
             label="Hành động"
-            v-if="hasPermission('edit-post') || hasPermission('delete-post') || hasPermission('update-status-post')"
+            v-if="hasPermission('POST-U') || hasPermission('POST-DEL')"
         >
             <template #default="post">
                 <div class="action">
                     <el-tooltip class="item" effect="dark" content="Chỉnh sửa" placement="top">
-                        <a  v-if="hasPermission('edit-post')"
+                        <a  v-if="hasPermission('POST-U')"
                             class="btn btnRecharge el-button el-button--primary"
                             @click="editPost(post.row._id)">
                             <el-icon><EditPen /></el-icon>
@@ -71,7 +79,7 @@
                     </el-tooltip>
 
                     <el-tooltip class="item" effect="dark" content="Xóa" placement="top">
-                        <a  v-if="hasPermission('delete-post')"
+                        <a  v-if="hasPermission('POST-DEL')"
                             class="btn btnRecharge el-button el-button--danger"
                             @click="handleDeletePost(post.row._id)">
                             <el-icon><Delete /></el-icon>
@@ -233,8 +241,7 @@ export default {
         }
 
         const formatDate = (data) => {
-            let datetime = new Date(data * 1000)
-            return moment(datetime).format("HH:mm DD/MM/YYYY")
+            return moment(data).format("HH:mm DD/MM/YYYY")
         }
 
 		return {

@@ -20,11 +20,11 @@
         <div class="post-main">
             <el-card class="list-post">
                 <div class="search-wrap">
-                    <el-row>
+                    <el-row :gutter="20">
                         <el-col :span="6">
                             <el-date-picker
                                     size="large"
-                                    class="inputWrap mt-[5px] w-full"
+                                    class="inputWrap mt-[5px] !w-full"
                                     v-model="date"
                                     type="daterange"
                                     range-separator=" - "

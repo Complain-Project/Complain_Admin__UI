@@ -44,7 +44,7 @@ export const MENUS = [
 				route: "complains",
 				svgIcon: require('@/assets/images/icons/shield.svg'),
 				index: 5,
-				permission: ''
+				permission: 'COMPLAIN-L'
 			},
 		],
 	},

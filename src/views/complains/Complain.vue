@@ -11,7 +11,20 @@
             <el-card class="list-complain">
                 <div class="search-wrap">
                     <el-row :gutter="20">
-                        <el-col class="input" :span="16">
+                        <el-col :span="6">
+                            <el-date-picker
+                                    size="large"
+                                    class="inputWrap !w-full"
+                                    v-model="date"
+                                    type="daterange"
+                                    range-separator=" - "
+                                    start-placeholder="Bắt đầu"
+                                    format="DD/MM/YYYY"
+                                    clearable
+                                    end-placeholder="Kết thúc">
+                            </el-date-picker>
+                        </el-col>
+                        <el-col class="input" :span="10">
                             <el-input
                                     class="input-search"
                                     :prefix-icon="Search"
@@ -28,6 +41,7 @@
                                        @change="handleSearch(1)"
                                        filterable
                                        clearable
+                                       class="!w-full"
                                        placeholder="Chọn huyện">
                                 <el-option
                                         v-for="item in districts"
@@ -41,6 +55,7 @@
                             <el-select v-model="status"
                                        @change="handleSearch(1)"
                                        clearable
+                                       class="!w-full"
                                        placeholder="Chọn Trạng thái">
                                 <el-option
                                         v-for="item in listStatus"
@@ -102,10 +117,19 @@
                         </template>
                     </el-table-column>
                     <el-table-column
+                            label="Ngày tạo"
+                            align="center"
+                    >
+                        <template #default="complain">
+                            {{ formatDate(complain.row.created_at) }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column
                             width="220px"
                             align="center"
                             prop="action"
                             label="Hành động"
+                            v-if="hasPermission('COMPLAIN-DETAIL')"
                     >
                         <template #default="complain">
                             <div class="action">
@@ -149,8 +173,8 @@
 
 <script>
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb.vue";
-import {onMounted, reactive, ref} from "vue";
-import {Mutations} from "@/store/enums/_type_enum";
+import {onMounted, reactive, ref, watch} from "vue";
+import {Getters, Mutations} from "@/store/enums/_type_enum";
 import {useStore} from "vuex";
 import { Search } from '@element-plus/icons-vue'
 import {COMPLAIN_STATUS, COMPLAIN_STATUS_DATA} from "@/utils/constants/_constant";
@@ -158,6 +182,7 @@ import _ from "lodash";
 import {ElMessage} from "element-plus";
 import api from "@/utils/services/_api_service";
 import router from "@/router";
+import moment from "moment/moment";
 
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
@@ -173,6 +198,7 @@ export default {
         const status = ref("")
         const districts = ref([])
         const listStatus = ref([])
+        let date = ref("");
         let views = reactive([
             {
                 value: 20,
@@ -213,6 +239,14 @@ export default {
             getDistrictsComplain()
         })
 
+        watch(date, () => {
+            handleSearch(1)
+        })
+
+        const hasPermission = (per) => {
+            return store.getters[`authModule/${Getters.HAS_PERMISSION}`](per)
+        }
+
         const getListComplains = (params= {}) => {
             loading.value = true
             params.per_page = viewSelected.value
@@ -252,6 +286,10 @@ export default {
             if(district.value){
                 payload.district = district.value
             }
+            if (date.value) {
+                payload.start = moment(date.value[0]).format('X')
+                payload.end = moment(date.value[1]).format('X')
+            }
 
             getListComplains(payload)
         }
@@ -269,6 +307,10 @@ export default {
             return router.push({name: "DetailComplain", params: {id: id}})
         }
 
+        const formatDate = (data) => {
+            return moment(data).format("HH:mm DD/MM/YYYY")
+        }
+
         return{
             district,
             districts,
@@ -282,10 +324,13 @@ export default {
             searchKey,
             loading,
             complainStatus,
+            date,
             handleClear,
             handleSearch,
             detailComplain,
-            handleChangeCurrentPage
+            handleChangeCurrentPage,
+            formatDate,
+            hasPermission
         }
     }
 }
