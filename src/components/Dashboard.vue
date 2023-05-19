@@ -1,6 +1,6 @@
 <template>
 	<div id="dashboard">
-		<el-card class="">
+		<el-card v-if="hasPermission('DAB-L')">
 			<div class="flex items-center max-w-2xl">
 				<el-select
 					v-model="district" @change="handleFilter"
@@ -34,7 +34,7 @@
 
 import { onMounted, reactive, ref } from "vue";
 import { useStore } from "vuex";
-import { Mutations } from "@/store/enums/_type_enum";
+import { Getters, Mutations } from "@/store/enums/_type_enum";
 import Chart from "chart.js/auto";
 import api from "@/utils/services/_api_service";
 import { ElMessage } from "element-plus";
@@ -105,15 +105,21 @@ export default {
 		onMounted(() => {
 			store.commit(`layoutModule/${Mutations.SET_ACTIVE_MENU}`, 1);
 			
-			initChart();
-			getDistricts();
-			getStatisticals();
+			if (hasPermission("DAB-L")) {
+				initChart();
+				getDistricts();
+				getStatisticals();
+			}
 		});
 		
 		const initChart = () => {
 			chart = new Chart(statistical.value, chartConfig);
 		};
 		/* Lifecycle hooks::end */
+		
+		const hasPermission = (per) => {
+			return store.getters[`authModule/${Getters.HAS_PERMISSION}`](per)
+		}
 		
 		const getDistricts = () => {
 			api.getDistricts().then((res) => {
@@ -161,6 +167,7 @@ export default {
 			district,
 			districts,
 			initChart,
+			hasPermission,
 			handleFilter
 		};
 	}
