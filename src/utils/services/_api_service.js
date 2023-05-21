@@ -296,7 +296,8 @@ export default {
 	downloadFile(id){
 		return apiAxios({
 			method: "post",
-			url: `admins/complains/download/${id}`
+			url: `admins/complains/download/${id}`,
+			responseType: 'blob',
 		})
 	},
 	/* Complains::end*/
