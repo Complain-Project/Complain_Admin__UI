@@ -93,13 +93,14 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                            width="650px"
+                            min-width="300px"
                             label="Tiêu đề">
                         <template #default="complain">
                             <p>{{ complain.row.title }}</p>
                         </template>
                     </el-table-column>
                     <el-table-column
+                            min-width="100px"
                             label="Huyện khiếu nại">
                         <template #default="complain">
                             <p>{{ complain.row.district.name }}</p>

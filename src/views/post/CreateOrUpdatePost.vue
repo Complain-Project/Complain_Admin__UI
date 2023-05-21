@@ -266,6 +266,12 @@ export default {
 
         onMounted(async () => {
             post._id = route.params.id
+            if(post._id && !hasPermission('POST-U')){
+                return router.push({name: 'Home', params: {errorPermission: "true"}});
+            }
+            if(!post._id && !hasPermission('POST-C')){
+                return router.push({name: 'Home', params: {errorPermission: "true"}});
+            }
             await checkPage()
             getListTags()
             getListCategories()
