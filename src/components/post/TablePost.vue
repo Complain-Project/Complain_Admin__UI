@@ -32,7 +32,7 @@
         >
             <template #default="post">
                 <span v-if="post.row.post_category_id">
-                    {{ post.row.post_category_id.name }}
+                    {{ post.row.category.name }}
                 </span>
                 <span v-else class="text-muted">Đang cập nhật</span>
             </template>
