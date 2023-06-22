@@ -1,7 +1,9 @@
 <template>
-    <div class="loginLayout">
-        <router-view/>
-    </div>
+<!--    <div class="loginLayout">-->
+<!--        <router-view/>-->
+<!--    </div>-->
+	
+	<router-view/>
 </template>
 
 <script>
